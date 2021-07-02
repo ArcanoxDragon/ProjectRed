@@ -33,6 +33,7 @@ sourceSets {
     illumination
     integration
     transmission
+    wiresTest
 }
 
 sourceSets.each {
@@ -63,6 +64,7 @@ minecraft {
                 'projectred-illumination' { source sourceSets.illumination }
                 'projectred-integration' { source sourceSets.integration }
                 'projectred-transmission' { source sourceSets.transmission }
+                'projectred-wires-test' { source sourceSets.wiresTest }
             }
         }
         server {
@@ -74,6 +76,7 @@ minecraft {
                 'projectred-illumination' { source sourceSets.illumination }
                 'projectred-integration' { source sourceSets.integration }
                 'projectred-transmission' { source sourceSets.transmission }
+                'projectred-wires-test' { source sourceSets.wiresTest }
             }
         }
 
@@ -88,6 +91,7 @@ minecraft {
                     'projectred-illumination' { source sourceSets.illumination }
                     'projectred-integration' { source sourceSets.integration }
                     'projectred-transmission' { source sourceSets.transmission }
+                    'projectred-wires-test' { source sourceSets.wiresTest }
                 }
             }
         }
@@ -109,6 +113,7 @@ configurations {
     illuminationCompile.extendsFrom moduleCompile
     integrationCompile.extendsFrom moduleCompile
     transmissionCompile.extendsFrom moduleCompile
+    wiresTestCompile.extendsFrom moduleCompile
 }
 
 dependencies {
@@ -142,6 +147,7 @@ reobf {
     illuminationJar { classpath += sourceSets.illumination.compileClasspath }
     integrationJar { classpath += sourceSets.integration.compileClasspath }
     transmissionJar { classpath += sourceSets.transmission.compileClasspath }
+    wiresTestJar { classpath += sourceSets.wiresTest.compileClasspath }
 }
 
 task coreJar(type: Jar) {
@@ -180,6 +186,12 @@ task transmissionJar(type: Jar) {
     from sourceSets.transmission.output
 }
 
+task wiresTestJar(type: Jar) {
+    classifier "wiresTest"
+    dependsOn compileWiresTestScala, compileWiresTestJava
+    from sourceSets.wiresTest.output
+}
+
 sourceSets.findAll {it.name != "main" && it.name != "test" } each { set ->
     def setNameCaps = "${set.name}".substring(0, 1).toUpperCase() + "${set.name}".substring(1)
     "process${setNameCaps}Resources" { task ->
@@ -216,6 +228,7 @@ publishing {
             artifact illuminationJar
             artifact integrationJar
             artifact transmissionJar
+            artifact wiresTestJar
 
             pom {
                 name = archivesBaseName
