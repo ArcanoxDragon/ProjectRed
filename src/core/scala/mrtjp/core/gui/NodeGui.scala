@@ -62,7 +62,7 @@ import net.minecraft.util.text.ITextComponent
   * @param h The height of this GUI window.
   */
 //TODO, extract to common trait implementable on a base ContainerNodeGui and a NodeGui as this is not a great setup for non container based guis.
-class NodeGui[T <: NodeContainer](c:T = new NodeContainer(null, -1), w:Int, h:Int, inv:PlayerInventory = null, title:ITextComponent = null) extends ContainerScreen[T](c, inv, title) with TNode
+class NodeGui[T <: NodeContainer](c:T = new NodeContainer(null, -2), w:Int, h:Int, inv:PlayerInventory = null, title:ITextComponent = null) extends ContainerScreen[T](c, inv, title) with TNode
 {
     /**
       * @constructor Used for creating a default sized GUI window
