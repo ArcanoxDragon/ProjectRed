@@ -11,6 +11,8 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.scorge.lang.ScorgeModLoadingContext
 
+import scala.jdk.CollectionConverters.CollectionHasAsScala
+
 class TransmissionProxy extends IProxy
 {
 //    override def preinit()
@@ -59,10 +61,10 @@ class TransmissionProxyClient extends TransmissionProxy
     override def construct() {
         super.construct()
         ScorgeModLoadingContext.get.getModEventBus.addListener(onModelRegistryEvent)
-        for(wireType <- WireType.values()) wireType.registerTextures(spriteHelper)
     }
 
     override def clientSetup(event: FMLClientSetupEvent) {
+        for(wireType <- WireType.registeredWireTypes.asScala) wireType.registerTextures(spriteHelper)
         MicroMaterialRegistry.registerHighlightRenderer(RenderFramedWire)
     }
 
